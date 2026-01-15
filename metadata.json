@@ -1,0 +1,7 @@
+{
+  "name": "TrainerPro - Gestión de Capacitaciones",
+  "description": "Plataforma integral para instructores y empresas para gestionar capacitaciones, asistencia y certificaciones digitales con firma electrónica y QR.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
