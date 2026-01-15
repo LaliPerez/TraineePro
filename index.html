@@ -4,47 +4,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TrainerPro</title>
-    <!-- Usamos la versión de Tailwind via CSS para evitar el warning de consola y mejorar compatibilidad -->
+    <title>TrainerPro - Gestión de Capacitaciones</title>
+    <!-- Cargamos Tailwind 2.2 como base estable y extendemos con CSS personalizado -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
     <style>
-        /* Adaptación para Tailwind 2.x ya que el modo oscuro funciona distinto al script v3 */
-        :root { background-color: #0f172a; color: #f8fafc; }
+        :root {
+            --bg-950: #020617;
+            --bg-900: #0f172a;
+            --bg-800: #1e293b;
+            --bg-700: #334155;
+            --indigo-600: #4f46e5;
+            --indigo-500: #6366f1;
+            --slate-400: #94a3b8;
+            --slate-100: #f1f5f9;
+        }
+        
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0f172a;
-            color: #f8fafc;
+            background-color: var(--bg-950);
+            color: var(--slate-100);
             margin: 0;
+            -webkit-font-smoothing: antialiased;
         }
-        .dark .bg-slate-950 { background-color: #020617; }
-        .dark .bg-slate-900 { background-color: #0f172a; }
-        .dark .bg-slate-800 { background-color: #1e293b; }
-        .dark .border-slate-800 { border-color: #1e293b; }
-        .dark .text-slate-400 { color: #94a3b8; }
+
+        /* Clases de Utilidad faltantes en Tailwind 2.x o personalizadas */
+        .bg-slate-950 { background-color: var(--bg-950); }
+        .bg-slate-900 { background-color: var(--bg-900); }
+        .bg-slate-800 { background-color: var(--bg-800); }
+        .bg-slate-700 { background-color: var(--bg-700); }
+        .border-slate-800 { border-color: var(--bg-800); }
+        .border-slate-700 { border-color: var(--bg-700); }
+        .text-slate-400 { color: var(--slate-400); }
+        .text-indigo-400 { color: #818cf8; }
+        .text-indigo-300 { color: #a5b4fc; }
+        .bg-indigo-600 { background-color: var(--indigo-600); }
+        .hover\:bg-indigo-700:hover { background-color: #4338ca; }
+        
         .signature-pad {
-            border: 2px dashed #334155;
-            background: #1e293b;
+            border: 2px dashed var(--bg-700);
+            background: var(--bg-800);
+            border-radius: 0.75rem;
             cursor: crosshair;
         }
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .rounded-xl { border-radius: 0.75rem; }
+        .rounded-2xl { border-radius: 1rem; }
+        .rounded-3xl { border-radius: 1.5rem; }
+
+        input, select {
+            color-scheme: dark;
+        }
+
+        /* Animaciones suaves */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-in { animation: fadeIn 0.4s ease-out fill-mode: both; }
+
+        /* Scrollbar personalizada */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-950); }
+        ::-webkit-scrollbar-thumb { background: var(--bg-700); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--slate-400); }
     </style>
-<script type="importmap">
-{
-  "imports": {
-    "react": "https://esm.sh/react@^19.2.3",
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react-router-dom": "https://esm.sh/react-router-dom@^7.12.0",
-    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
-    "qrcode.react": "https://esm.sh/qrcode.react@^4.2.0",
-    "jspdf": "https://esm.sh/jspdf@^4.0.0"
-  }
-}
-</script>
+    <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react@^19.2.3",
+        "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+        "react/": "https://esm.sh/react@^19.2.3/",
+        "react-router-dom": "https://esm.sh/react-router-dom@^7.12.0",
+        "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+        "qrcode.react": "https://esm.sh/qrcode.react@^4.2.0",
+        "jspdf": "https://esm.sh/jspdf@^4.0.0"
+      }
+    }
+    </script>
 </head>
-<body class="min-h-screen">
+<body class="min-h-screen selection:bg-indigo-500/30">
     <div id="root"></div>
 </body>
 </html>
