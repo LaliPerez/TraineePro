@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TrainerPro - Gestión de Capacitaciones</title>
-    <!-- Cargamos Tailwind 2.2 como base estable y extendemos con CSS personalizado -->
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- CSS Base Robusto -->
+    <link href="https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -18,28 +18,92 @@
             --indigo-500: #6366f1;
             --slate-400: #94a3b8;
             --slate-100: #f1f5f9;
+            --red-400: #f87171;
+            --green-400: #4ade80;
         }
         
+        * { box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-950);
             color: var(--slate-100);
             margin: 0;
+            line-height: 1.5;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Clases de Utilidad faltantes en Tailwind 2.x o personalizadas */
+        /* Sistema de Grillas y Flexbox Minimalista */
+        .flex { display: flex; }
+        .flex-col { flex-direction: column; }
+        .items-center { align-items: center; }
+        .justify-between { justify-content: space-between; }
+        .justify-center { justify-content: center; }
+        .gap-2 { gap: 0.5rem; }
+        .gap-3 { gap: 0.75rem; }
+        .gap-4 { gap: 1rem; }
+        .gap-6 { gap: 1.5rem; }
+        
+        .grid { display: grid; }
+        .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+        @media (min-width: 768px) {
+            .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .md\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+            .md\:flex-row { flex-direction: row; }
+            .md\:w-64 { width: 16rem; }
+        }
+
+        /* Estilos de Componentes */
         .bg-slate-950 { background-color: var(--bg-950); }
         .bg-slate-900 { background-color: var(--bg-900); }
         .bg-slate-800 { background-color: var(--bg-800); }
-        .bg-slate-700 { background-color: var(--bg-700); }
-        .border-slate-800 { border-color: var(--bg-800); }
-        .border-slate-700 { border-color: var(--bg-700); }
-        .text-slate-400 { color: var(--slate-400); }
-        .text-indigo-400 { color: #818cf8; }
-        .text-indigo-300 { color: #a5b4fc; }
         .bg-indigo-600 { background-color: var(--indigo-600); }
-        .hover\:bg-indigo-700:hover { background-color: #4338ca; }
+        .bg-white { background-color: white; }
+        
+        .border { border: 1px solid var(--bg-700); }
+        .border-b { border-bottom: 1px solid var(--bg-800); }
+        .border-r { border-right: 1px solid var(--bg-800); }
+        
+        .rounded-xl { border-radius: 0.75rem; }
+        .rounded-2xl { border-radius: 1rem; }
+        .rounded-full { border-radius: 9999px; }
+
+        .p-4 { padding: 1rem; }
+        .p-6 { padding: 1.5rem; }
+        .p-8 { padding: 2rem; }
+        .px-4 { padding-left: 1rem; padding-right: 1rem; }
+        .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+        .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+
+        .text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+        .text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+        .text-sm { font-size: 0.875rem; }
+        .text-xs { font-size: 0.75rem; }
+        .font-bold { font-weight: 700; }
+        .text-slate-400 { color: var(--slate-400); }
+        .text-red-400 { color: var(--red-400); }
+        .text-indigo-400 { color: #818cf8; }
+
+        input, select {
+            background-color: var(--bg-800);
+            border: 1px solid var(--bg-700);
+            color: white;
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            outline: none;
+            width: 100%;
+        }
+        input:focus { border-color: var(--indigo-500); }
+
+        button {
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        button:active { transform: scale(0.98); }
         
         .signature-pad {
             border: 2px dashed var(--bg-700);
@@ -48,42 +112,38 @@
             cursor: crosshair;
         }
 
-        .rounded-xl { border-radius: 0.75rem; }
-        .rounded-2xl { border-radius: 1rem; }
-        .rounded-3xl { border-radius: 1.5rem; }
+        .animate-in { animation: fadeIn 0.4s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        input, select {
-            color-scheme: dark;
-        }
-
-        /* Animaciones suaves */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-in { animation: fadeIn 0.4s ease-out fill-mode: both; }
-
-        /* Scrollbar personalizada */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--bg-950); }
-        ::-webkit-scrollbar-thumb { background: var(--bg-700); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--slate-400); }
+        table { width: 100%; border-collapse: collapse; }
+        th { text-align: left; padding: 1rem; color: var(--slate-400); font-size: 0.75rem; text-transform: uppercase; }
+        td { padding: 1rem; border-top: 1px solid var(--bg-800); }
+        
+        .w-full { width: 100%; }
+        .min-h-screen { min-height: 100vh; }
+        .max-w-5xl { max-width: 64rem; margin: 0 auto; }
+        .overflow-y-auto { overflow-y: auto; }
+        .hidden { display: none; }
+        .invert { filter: invert(1); }
     </style>
     <script type="importmap">
-    {
-      "imports": {
-        "react": "https://esm.sh/react@^19.2.3",
-        "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-        "react/": "https://esm.sh/react@^19.2.3/",
-        "react-router-dom": "https://esm.sh/react-router-dom@^7.12.0",
-        "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
-        "qrcode.react": "https://esm.sh/qrcode.react@^4.2.0",
-        "jspdf": "https://esm.sh/jspdf@^4.0.0"
-      }
-    }
-    </script>
+{
+  "imports": {
+    "react": "https://esm.sh/react@18.2.0",
+    "react-dom": "https://esm.sh/react-dom@18.2.0",
+    "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+    "react-router-dom": "https://esm.sh/react-router-dom@6.11.2",
+    "lucide-react": "https://esm.sh/lucide-react@0.244.0",
+    "qrcode.react": "https://esm.sh/qrcode.react@3.1.0",
+    "jspdf": "https://esm.sh/jspdf@2.5.1",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/"
+  }
+}
+</script>
 </head>
-<body class="min-h-screen selection:bg-indigo-500/30">
+<body class="min-h-screen">
     <div id="root"></div>
+    <script type="module" src="index.tsx"></script>
 </body>
 </html>
